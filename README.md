@@ -4,3 +4,6 @@ https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/blob/main/llama-2-7b-chat.g
 
 1. run ingest.py
 2. then python run.py
+
+<br/>
+minimum 16gb RAM
