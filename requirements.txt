@@ -1,5 +1,5 @@
 pypdf
-langchain
+langchain==0.2.0
 torch
 accelerate
 bitsandbytes
@@ -9,3 +9,4 @@ faiss-cpu
 chainlit
 huggingface_hub
 ctransformers
+uvicorn==0.24.0

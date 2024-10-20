@@ -1,14 +1,14 @@
-from langchain.document_loaders import PyPDFLoader, DirectoryLoader
-from langchain import PromptTemplate
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
-from langchain.llms import CTransformers
+from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
+from langchain.prompts import PromptTemplate
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+from langchain_community.llms import CTransformers
 from langchain.chains import RetrievalQA
 import re
 
 DB_FAISS_PATH = 'vectorstore/db_faiss'
 
-custom_prompt_template = """Use the following pieces of information to answer the user's question.
+custom_prompt_template = """Use the following pieces of information from the vector database to answer the user's question related to law.
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
 
 Context: {context}
@@ -37,14 +37,14 @@ def load_llm():
         model="TheBloke/Llama-2-7B-Chat-GGML",
         model_type="llama",
         max_new_tokens=512,
-        temperature=0.5
+        temperature=0.3
     )
     return llm
 
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
                                        model_kwargs={'device': 'cpu'})
-    db = FAISS.load_local(DB_FAISS_PATH, embeddings,allow_dangerous_deserialization=True)
+    db = FAISS.load_local(DB_FAISS_PATH, embeddings, allow_dangerous_deserialization=True)
     db.save_local(DB_FAISS_PATH)
     llm = load_llm()
     qa_prompt = set_custom_prompt()
